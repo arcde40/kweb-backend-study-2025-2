@@ -3,15 +3,13 @@ const express = require('express') ;
 const app = express() ;
 
 app.get('/hello', (req, res) =>{
-    let i = 2 * 2 ;
-    res.send('하이!!!!!!!!') ;  
-    res.send(i);  
+    res.send('“Hello, World!') ;  
 }) ;
 
 
-app.get('/hi', (req, res) =>{
-    res.send('잘가!!!!!!!!') ;  
+app.get('/bye', (req, res) =>{
+    res.send('Goodbye, World!') ;  
 }) ;
 
-app.listen(3000, () => {console.log('port 3000 HI !!!!!!!!!!') ; }) ;
+app.listen(3000, () => {console.log('port 3000 OK');}) ;
 
