@@ -3,10 +3,11 @@ const express = require('express');
 const app = express();
 
 app.get('/hello', (req, res) => { 
-    let i = 2 * 2;
-    res.send(i); 
+    res.send('Hello, World!'); 
 });
 
-app.get('/hi', (req, res) => { res.send('<h1>안녕2<h1>'); });
+app.get('/bye', (req, res) => {
+    res.send('Goodbye, World!');
+})
 
 app.listen(3000, () => {console.log('Server listening on port 3000!')});
