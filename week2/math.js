@@ -33,9 +33,7 @@ router.get('/', (req, res) => {
     res.send(HTMLtemplate(`안녕하세요, 현재 URL의 뒤에
         <br>
         "/add", "/sub" 혹은 "/mul" 을 붙여서 두 수의 연산 기능을 수행하실 수 있습니다.
-        <br>
-        div는 귀찮아서 안했어옹.`
-    ))
+    `))
 })
 
 const operator = ["add", "sub", "mul"]
