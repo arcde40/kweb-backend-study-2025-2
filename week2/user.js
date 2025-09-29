@@ -3,10 +3,7 @@ const { Router } = require('express');
 const router = Router();
 
 router.get('/', (req, res) => {
-    const a = req.query.a;
-    const b = req.query.b;
-    res.send(`${a}, ${b}`);
-    //res.send(`Please input user id`);
+    res.send(`Please input user id`);
 })
 
 router.get('/:id', (req, res, next) => {
@@ -19,7 +16,7 @@ router.get('/:id', (req, res) => {
 });
 
 /*
-router.get('/user', (req, res) => {
+router.get('/', (req, res) => {
     if(req.query.id === undefined) res.send('No query!');
     res.send(`You requested ${req.query.id}!`);
 });
