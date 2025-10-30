@@ -1,0 +1,13 @@
+const express = require('express');
+
+const app = express();
+
+const userMathRouter = require('./user_math');
+
+app.use('/math', userMathRouter);
+
+app.get('/', (req, res) => {
+    res.send("Hello, world");
+});
+
+app.listen(3000, () => console.log("server listening on port 3000!"));
