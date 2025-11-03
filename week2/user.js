@@ -1,23 +1,20 @@
-const { Router} = require('express') ;
+const Router = require('express') ;
 
 const router = Router() ;
 
-router.get('/user', (req, res) => {
+router.get('/', (req, res) => {
     res.send(`please input user id`) ;
-    const a = req.query.a ;
-    const b = req.query.b ;
-    res.send(`{}`)
-
-
 }) ;
 
-router.get('/user/:id', (req, res) => {
-    if(req.params.id !== '1') res.send('You are not welcome'); 
-    else next() ;
-}) ;
-
-router.get('/user/:id', (req, res) => {
-    res.send(`Hello, user ${req.params.id}`) ;
+router.get('/:id', (req, res, next) => {
+    if(req.params.id === '1'){
+        res.send(`your id : ${req.params.id}`) ;
+        next() ; 
+    } 
+    else{
+        res.send('You are not welcome'); 
+        next() ; 
+    } 
 }) ;
 
 module.exports = router ; 
