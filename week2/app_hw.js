@@ -2,9 +2,15 @@ const express = require('express');
 
 const app = express();
 
-const userMathRouter = require('./user_math');
+// view engine 설정
+app.set('views', `${__dirname}/views`);
+app.set('view engine', 'pug');
+app.use(express.urlencoded({extended: true}));
+app.use(express.static('public'));
 
-app.use('/math', userMathRouter);
+const userRouter = require('./user_math');
+
+app.use('/math', userRouter); 
 
 app.get('/', (req, res) => {
     res.send("Hello, world");

@@ -1,0 +1,39 @@
+doctype html
+html(lang="ko")
+    head
+        title 덧셈/뺄셈 해보기
+        link(rel="stylesheet", href="/style.css")
+    body
+        h1 덧셈/뺄셈 해보기
+
+        //- error 또는 result 표시
+        if error
+            p.error(style="color:#c00; font-weight:bold") #{error}
+        else if typeof result !== 'undefined'
+            p.result(style="font-weight:bold") 결과: #{a} #{op} #{b} = #{result}
+
+        //- 폼: op와 action 변수를 통해 더하기/빼기 페이지에서 사용
+        if op === '+'
+            form(action=action || '/math/sum', method='get')
+                div
+                    label(for='a') 숫자 a:
+                    input(type='number', name='a', id='a', required=true, value=(typeof a !== 'undefined' ? a : ''))
+                div
+                    label(for='b') 숫자 b:
+                    input(type='number', name='b', id='b', required=true, value=(typeof b !== 'undefined' ? b : ''))
+                div
+                    button(type='submit') 더하기
+
+        else if op === '-'
+            form(action=action || '/math/sub', method='get')
+                div
+                    label(for='a2') 숫자 a:
+                    input(type='number', name='a', id='a2', required=true, value=(typeof a !== 'undefined' ? a : ''))
+                div
+                    label(for='b2') 숫자 b:
+                    input(type='number', name='b', id='b2', required=true, value=(typeof b !== 'undefined' ? b : ''))
+                div
+                    button(type='submit') 빼기
+
+        p
+            a(href="/math") 돌아가기
