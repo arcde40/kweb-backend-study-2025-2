@@ -11,7 +11,7 @@
     "cpus": 2
   },
 
-  "postCreateCommand": "npm install -g yarn && apt-get update && apt-get install -y default-mysql-client",
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y default-mysql-client",
 
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
@@ -25,7 +25,8 @@
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
         "humao.rest-client",
-        "ms-azuretools.vscode-docker"
+        "ms-azuretools.vscode-docker",
+        "cweijan.vscode-mysql-client2"
       ],
       "settings": {
         "terminal.integrated.shell.linux": "/bin/bash"
