@@ -17,7 +17,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: kwebstudy
       MYSQL_DATABASE: kweb_db
-      MYSQL_USER: kweb_user
+      MYSQL_USER: kweb
       MYSQL_PASSWORD: 1q2w3e4r 
     volumes:
       - mariadb-data:/var/lib/mysql
