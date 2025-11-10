@@ -1,0 +1,24 @@
+doctype html
+html(lang="ko")
+    head 
+        title simple-calculator
+        link(rel="stylesheet", href="/style.css")
+    body 
+        div.container
+            h1 simple-calculator 
+            form(action="/math", method="POST")
+                div
+                    input(type="text", name="num1", placeholder="num1", required=true)
+                div
+                    input(type="text", name="num2", placeholder="num2", required=true)
+                .button
+                    button(type="submit", name="operand", value = "sum") +
+                    button(type="submit", name="operand", value = "sub") -
+
+            if error 
+                div.error 
+                    | Error : #{error}
+            
+            if result
+                div.result 
+                    | 결과 : #{result}
