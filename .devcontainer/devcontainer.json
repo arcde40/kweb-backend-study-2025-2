@@ -1,39 +1,44 @@
 {
-  "name": "KWEB-Backend-Study",
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:18",
+  "name": "KWEB-Backend-Study",
 
-  "hostRequirements": {
-    "cpus": 2
-  },
+  "dockerComposeFile": "docker-compose.yml",
 
-  "postCreateCommand": "npm install -g yarn",
+  "service": "app",
 
-  "features": {
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "lts"
-    }
-  },
+  "workspaceFolder": "/workspace",
 
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
-        "humao.rest-client",
-        "ms-azuretools.vscode-docker"
-      ],
-      "settings": {
-        "terminal.integrated.shell.linux": "/bin/bash"
-      }
-    }
-  },
+  
+  "hostRequirements": {
+    "cpus": 2
+  },
 
-  "forwardPorts": [3000],
+  "postCreateCommand": "npm install -g yarn && apt-get update && apt-get install -y default-mysql-client", // mysql 클라이언트 설치 추가
 
-  "portsAttributes": {
-    "3000": {
-      "label": "Application",
-      "onAutoForward": "openPreview"
-    }
-  }
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "humao.rest-client",
+        "ms-azuretools.vscode-docker" // Docker Compose 관리에 유용
+      ],
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      }
+    }
+  },
+
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Application",
+      "onAutoForward": "openPreview"
+    }
+  }
 }
