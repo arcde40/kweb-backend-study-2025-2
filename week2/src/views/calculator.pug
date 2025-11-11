@@ -1,0 +1,23 @@
+doctype html
+html(lang="ko")
+    head
+        title Calculator
+        link(rel="stylesheet", href="/style.css")
+    body
+        form(action="/calculate", method="POST")
+            div.calculator
+                div.column.col_1
+                    div.form-group
+                        select(name = "BOp")
+                            option(value = "Add") +
+                            option(value = "Mul") ×
+                            option(value = "Sub") -
+                            option(value = "Div") ÷
+                div.column.col_2
+                    div.form-group
+                        input(type="text", name = "num1", required=true, value = num1)
+                    div.form-group
+                        input(type="text", name = "num2", required=true, value = num2)
+            div.result #{result}
+            div
+                input(type = "submit", value = "Calculate!")
