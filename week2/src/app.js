@@ -9,8 +9,15 @@ app.use(express.static('public'));
 let result = ""
 let nn1 = ""
 let nn2 = ""
+let Op = [
+  {op: "Add", sign: "+"},
+  {op: "Mul", sign: "×"},
+  {op: "Sub", sign: "-"},
+  {op: "Div", sign: "÷"},
+]
+
 app.get("/", (req, res) => {
-  res.render("calculator.pug", {result : result, num1 : nn1, num2 : nn2})
+  res.render("calculator.pug", {result : result, num1 : nn1, num2 : nn2, op: Op})
 })
 app.post("/calculate", (req, res) => {
   const num1 = Number(req.body.num1)
@@ -37,6 +44,18 @@ app.post("/calculate", (req, res) => {
       else {
         result = num1 / num2
       }
+    }
+  }
+
+  for(let i = 0; i < 4; i++){
+    if (Op[i].op == BOp){
+      let temp_op = Op[0].op
+      let temp_sign = Op[0].sign
+      Op[0].op = Op[i].op
+      Op[0].sign = Op[i].sign
+      Op[i].op = temp_op
+      Op[i].sign = temp_sign
+      break
     }
   }
   nn1 = req.body.num1

@@ -9,10 +9,10 @@ html(lang="ko")
                 div.column.col_1
                     div.form-group
                         select(name = "BOp")
-                            option(value = "Add") +
-                            option(value = "Mul") ×
-                            option(value = "Sub") -
-                            option(value = "Div") ÷
+                            option(value = op[0].op) #{op[0].sign}
+                            option(value = op[1].op) #{op[1].sign}
+                            option(value = op[2].op) #{op[2].sign}
+                            option(value = op[3].op) #{op[3].sign}
                 div.column.col_2
                     div.form-group
                         input(type="text", name = "num1", required=true, value = num1)
