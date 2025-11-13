@@ -1,0 +1,25 @@
+doctype html
+html(lang="ko")
+  head
+    meta(charset="utf-8")
+    title Sum-Sub Machine
+    link(rel="stylesheet", href="/style.css")
+    if error
+      script.
+        alert("#{error}")
+  body
+    h1 Sum-Sub Machine 
+
+    form(action="/calc", method="POST")
+      .input-box
+        input(type="text", name="a", placeholder="첫 번째 숫자", required)
+      .input-box
+        input(type="text", name="b", placeholder="두 번째 숫자", required)
+      button(type="submit").btn 계산하기
+
+    if result
+      hr
+      h2 계산 결과
+      ul
+        li 합(sum): #{result.sum}
+        li 차(sub): #{result.sub}
