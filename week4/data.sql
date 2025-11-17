@@ -1,9 +1,12 @@
+USE kweb_db ;
+
 DROP TABLE IF EXISTS enrollments;
 DROP TABLE IF EXISTS courses;
 DROP TABLE IF EXISTS students;
 DROP TABLE IF EXISTS professors;
 
 CREATE TABLE professors (
+
     prof_id INT AUTO_INCREMENT PRIMARY KEY,
     prof_name VARCHAR(100) NOT NULL,
     department VARCHAR(100)
