@@ -1,4 +1,8 @@
 const mysql = require('mysql2/promise');
+const {runQuery} = require('/database');
+const express = require('express');
+const sanitizeHtml = require('sanitize-html');
+const app= express();
 
 const pool = mysql.createPool({
     host: 'db',
@@ -47,6 +51,11 @@ async function getEnrolledStudentsByCourseName(courseName) {
     console.table(students);
 }
 
+app.get('/xss', (req, res) => {
+    const content = req.query.content;
+    return res.send(sanitizeHTML(content));
+});
+
 (async () => {
     try {
         await getStudentGradesByName('가나다');
@@ -57,3 +66,4 @@ async function getEnrolledStudentsByCourseName(courseName) {
         await pool.end();
     }
 })();
+app.listen(3000, ()=>console.log('statring server..'));
