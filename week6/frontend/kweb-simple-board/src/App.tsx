@@ -1,6 +1,7 @@
-import { AuthProvider, useAuth } from './contexts/AuthContext'
-import Board from './components/Board'
-import Login from './components/Login'
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+import Board from './components/Board';
+import Login from './components/Login';
 
 function AppContent() {
   const { user, loading } = useAuth();
@@ -19,9 +20,11 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-      <AppContent />
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <AppContent />
+      </ThemeProvider>
     </AuthProvider>
   );
 }
 
-export default App
+export default App;

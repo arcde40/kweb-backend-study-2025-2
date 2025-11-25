@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { ModeToggle } from '@/components/ModeToggle';
 import {
   Card,
   CardContent,
@@ -55,7 +56,10 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-muted/40 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-muted/40 flex items-center justify-center p-4 relative">
+      <div className="absolute top-4 right-4">
+        <ModeToggle variant="secondary" />
+      </div>
       <div className="w-full max-w-md space-y-8">
         <div className="flex flex-col items-center justify-center text-center space-y-2">
           <div className="h-12 w-12 rounded-xl bg-primary flex items-center justify-center mb-4">
