@@ -1,0 +1,33 @@
+doctype html
+html(lang="ko")
+    head 
+        title Math
+        link(rel="stylesheet", href="/style.css")
+            
+        if error 
+            script. 
+                alert(#{'\'' + error + '\''});
+    body 
+        h1 Calculator
+
+        h2 Sum
+        form(action="/math/sum", method="GET")
+            div
+                label(for="a-sum") 1st num:
+                input#a-sum(type="number", name="a", required=true)
+            div
+                label(for="b-sum") 2nd num:
+                input#b-sum(type="number", name="b", required=true)
+            div
+                button(type="submit") result
+
+        h2 Sub
+        form(action="/math/sub", method="GET")
+            div
+                label(for="a-sub") 1st num:
+                input#a-sub(type="number", name="a", required=true)
+            div
+                label(for="b-sub") 2nd num:
+                input#b-sub(type="number", name="b", required=true)
+            div
+                button(type="submit") result

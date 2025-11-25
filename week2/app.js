@@ -2,6 +2,11 @@ const express = require('express');
 
 const app = express();
 
+app.use(express.urlencoded({extended: true}));
+app.set('views', `${__dirname}/views`);
+app.set('view engine', 'pug');
+app.use(express.static('public'));
+
 const userRouter = require('./user');
 const mathRouter = require('./math');
 
@@ -12,6 +17,10 @@ app.use((req ,res, next) => {
 
 app.use('/user', userRouter);
 app.use('/math', mathRouter);
+
+app.get('/math', (req, res) => {
+  res.render('math');
+});
 
 app.get('/', (req, res) => {
     res.send("Hello World!")
