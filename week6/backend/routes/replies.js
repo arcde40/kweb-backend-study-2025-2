@@ -11,7 +11,7 @@ router.delete('/:replyId', async (req, res) => {
     // 2. replyService.deleteReply() 호출
     // 3. 200 상태코드 반환
 
-    res.status(200).json({ message: 'Delete reply endpoint - to be implemented' });
+    res.status(501).json({ error: 'Not implemented' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
