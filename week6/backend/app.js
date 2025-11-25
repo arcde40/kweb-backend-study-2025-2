@@ -40,7 +40,7 @@ app.get('/api', (req, res) => {
 });
 
 // Serve static files from React build
-app.use(express.static(path.join(__dirname, './static/index.html')));
+app.use(express.static(path.join(__dirname, './static')));
 
 // Catch-all route to serve index.html for client-side routing
 app.get(/(.*)/, (req, res) => {
