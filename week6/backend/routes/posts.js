@@ -1,13 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const postService = require('../services/postService');
+const replyService = require('../services/replyService');
 
 router.get('/', async (req, res) => {
   try {
-    // TODO: Implement get all posts
-    // 1. Query all posts from database
-    // 2. Join with users table to get username
-    // 3. Include reply count
-    // 4. Order by created_at desc
+    // TODO: postService.getAllPosts() 호출 후 결과 반환
 
     res.status(200).json({ message: 'Get posts endpoint - to be implemented' });
   } catch (error) {
@@ -19,11 +17,7 @@ router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    // TODO: Implement get single post
-    // 1. Query post by id
-    // 2. Join with users table to get username
-    // 3. Include reply count
-    // 4. Return 404 if not found
+    // TODO: postService.getPostById() 호출 후 결과 반환
 
     res.status(200).json({ message: 'Get post by id endpoint - to be implemented' });
   } catch (error) {
@@ -35,11 +29,10 @@ router.post('/', async (req, res) => {
   try {
     const { title, content } = req.body;
 
-    // TODO: Implement create post
-    // 1. Check authentication (middleware or manual)
-    // 2. Validate input
-    // 3. Insert post into database
-    // 4. Return created post with user info
+    // TODO:
+    // 1. 세션에서 userId 가져오기
+    // 2. postService.createPost() 호출
+    // 3. 201 상태코드와 함께 결과 반환
 
     res.status(201).json({ message: 'Create post endpoint - to be implemented' });
   } catch (error) {
@@ -52,11 +45,10 @@ router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { title, content } = req.body;
 
-    // TODO: Implement update post
-    // 1. Check authentication
-    // 2. Check if post exists and belongs to user
-    // 3. Update post in database
-    // 4. Return updated post
+    // TODO:
+    // 1. 세션에서 userId 가져오기
+    // 2. postService.updatePost() 호출
+    // 3. 결과 반환
 
     res.status(200).json({ message: 'Update post endpoint - to be implemented' });
   } catch (error) {
@@ -68,11 +60,10 @@ router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    // TODO: Implement delete post
-    // 1. Check authentication
-    // 2. Check if post exists and belongs to user
-    // 3. Delete post from database
-    // 4. Return success
+    // TODO:
+    // 1. 세션에서 userId 가져오기
+    // 2. postService.deletePost() 호출
+    // 3. 204 상태코드 반환
 
     res.status(204).send();
   } catch (error) {
@@ -84,10 +75,7 @@ router.get('/:postId/replies', async (req, res) => {
   try {
     const { postId } = req.params;
 
-    // TODO: Implement get replies for a post
-    // 1. Query all replies for the post
-    // 2. Join with users table to get username
-    // 3. Order by created_at
+    // TODO: replyService.getRepliesByPostId() 호출 후 결과 반환
 
     res.status(200).json({ message: 'Get replies endpoint - to be implemented' });
   } catch (error) {
@@ -100,12 +88,10 @@ router.post('/:postId/replies', async (req, res) => {
     const { postId } = req.params;
     const { content } = req.body;
 
-    // TODO: Implement create reply
-    // 1. Check authentication
-    // 2. Validate input
-    // 3. Check if post exists
-    // 4. Insert reply into database
-    // 5. Return created reply with user info
+    // TODO:
+    // 1. 세션에서 userId 가져오기
+    // 2. replyService.createReply() 호출
+    // 3. 201 상태코드와 함께 결과 반환
 
     res.status(201).json({ message: 'Create reply endpoint - to be implemented' });
   } catch (error) {

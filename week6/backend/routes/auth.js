@@ -1,17 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { hashPassword, comparePassword } = require('../utils/password');
+const authService = require('../services/authService');
 
 router.post('/register', async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // TODO: Implement user registration
-    // 1. Validate input (check username and password are not empty)
-    // 2. Check if user already exists (query database)
-    // 3. Hash password using: const hashedPassword = await hashPassword(password);
-    // 4. Insert into database with hashedPassword
-    // 5. Return user info (id, username) - DO NOT return password
+    // TODO: authService.register() 호출 후 결과 반환
 
     res.status(200).json({ message: 'Register endpoint - to be implemented' });
   } catch (error) {
@@ -23,12 +18,10 @@ router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // TODO: Implement user login
-    // 1. Validate input (check username and password are not empty)
-    // 2. Find user by username (query database)
-    // 3. Verify password using: const isValid = await comparePassword(password, user.password);
-    // 4. If valid, create session: req.session.userId = user.id;
-    // 5. Return user info (id, username) - DO NOT return password
+    // TODO:
+    // 1. authService.login() 호출
+    // 2. 세션에 userId 저장: req.session.userId = user.id
+    // 3. 사용자 정보 반환
 
     res.status(200).json({ message: 'Login endpoint - to be implemented' });
   } catch (error) {
@@ -38,9 +31,7 @@ router.post('/login', async (req, res) => {
 
 router.post('/logout', (req, res) => {
   try {
-    // TODO: Implement logout
-    // 1. Destroy session
-    // 2. Clear session cookie
+    // TODO: req.session.destroy() 호출
 
     res.status(200).json({ message: 'Logout endpoint - to be implemented' });
   } catch (error) {
@@ -48,11 +39,12 @@ router.post('/logout', (req, res) => {
   }
 });
 
-router.get('/me', (req, res) => {
+router.get('/me', async (req, res) => {
   try {
-    // TODO: Implement current user retrieval
-    // 1. Check if user is authenticated (check session)
-    // 2. Return user info or 401
+    // TODO:
+    // 1. 세션 확인 (req.session.userId)
+    // 2. authService.getCurrentUser() 호출
+    // 3. 사용자 정보 반환
 
     res.status(200).json({ message: 'Me endpoint - to be implemented' });
   } catch (error) {

@@ -7,19 +7,41 @@ Express.js + MariaDB 기반 게시판 백엔드 API
 ```
 backend/
 ├── app.js                      # 메인 서버 파일
-├── database/
+├── config/
 │   └── database.js            # DB 연결 설정
+├── routes/                     # HTTP 요청/응답 처리
+│   ├── auth.js                # 인증 라우트
+│   ├── posts.js               # 게시글 라우트
+│   └── replies.js             # 댓글 라우트
+├── services/                   # 비즈니스 로직
+│   ├── authService.js         # 인증 서비스
+│   ├── postService.js         # 게시글 서비스
+│   └── replyService.js        # 댓글 서비스
+├── repositories/               # 데이터베이스 쿼리
+│   ├── userRepository.js      # 사용자 Repository
+│   ├── postRepository.js      # 게시글 Repository
+│   └── replyRepository.js     # 댓글 Repository
 ├── middleware/
 │   └── auth.js                # 인증 미들웨어
-├── routes/
-│   ├── auth.js                # 인증 라우트
-│   ├── posts.js               # 게시글 라우트 (댓글 포함)
-│   └── replies.js             # 댓글 삭제 라우트
 ├── utils/
 │   ├── password.js            # bcrypt 비밀번호 해싱 유틸
 │   └── password.example.js    # 사용 예제
 └── schema.sql                 # DB 스키마
 ```
+
+## 레이어드 아키텍처
+
+이 프로젝트는 **3-Layer Architecture**를 사용합니다:
+
+```
+Routes (Controller) → Services (Business Logic) → Repositories (Data Access)
+```
+
+**각 레이어의 역할:**
+
+- **Routes**: HTTP 요청 처리, 응답 반환, 상태 코드 관리
+- **Services**: 비즈니스 로직, 유효성 검사, 여러 Repository 조합
+- **Repositories**: 데이터베이스 쿼리 실행
 
 ## 시작하기
 
@@ -87,6 +109,47 @@ npm run dev
 **replies** - 댓글
 
 - `id`, `content`, `post_id` (FK), `user_id` (FK), `created_at`
+
+## 구현 가이드
+
+### 1. Repository Layer (데이터 접근)
+
+데이터베이스 쿼리만 담당합니다.
+
+```javascript
+// repositories/userRepository.js
+async function findByUsername(username) {
+  // TODO: SELECT 쿼리 작성
+}
+```
+
+### 2. Service Layer (비즈니스 로직)
+
+유효성 검사, Repository 호출, 데이터 가공을 담당합니다.
+
+```javascript
+// services/authService.js
+async function register(username, password) {
+  // 1. 유효성 검사
+  // 2. userRepository.existsByUsername() 호출
+  // 3. 비밀번호 해싱
+  // 4. userRepository.create() 호출
+  // 5. 결과 반환
+}
+```
+
+### 3. Route Layer (컨트롤러)
+
+HTTP 요청 처리, Service 호출, 응답 반환을 담당합니다.
+
+```javascript
+// routes/auth.js
+router.post('/register', async (req, res) => {
+  const { username, password } = req.body;
+  const user = await authService.register(username, password);
+  res.status(200).json(user);
+});
+```
 
 ## 비밀번호 해싱
 

@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const replyService = require('../services/replyService');
 
 router.delete('/:replyId', async (req, res) => {
   try {
     const { replyId } = req.params;
 
-    // TODO: Implement delete reply
-    // 1. Check authentication
-    // 2. Check if reply exists and belongs to user
-    // 3. Delete reply from database
-    // 4. Return success
+    // TODO:
+    // 1. 세션에서 userId 가져오기
+    // 2. replyService.deleteReply() 호출
+    // 3. 200 상태코드 반환
 
     res.status(200).json({ message: 'Delete reply endpoint - to be implemented' });
   } catch (error) {
