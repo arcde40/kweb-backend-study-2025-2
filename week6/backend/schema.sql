@@ -1,6 +1,5 @@
 -- Create database
-CREATE DATABASE IF NOT EXISTS simple_board;
-USE simple_board;
+USE kweb_db;
 
 -- Users table
 CREATE TABLE IF NOT EXISTS users (
