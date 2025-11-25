@@ -9,14 +9,15 @@ const pool = mysql.createPool({
 });
 
 
-const runQuery = async sql => {
+const  runQuery  = async(pstmt, data) => {
     const conn = await pool.getConnection();
     try {
-        const [result] = await conn.query(sql);
+        const sql = conn.format(pstmt, data);
+        const[result] = await conn.query(sql);
         return result;
     } finally {
         conn.release();
     }
-};
+}
 
 module.exports = {runQuery}
