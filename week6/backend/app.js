@@ -8,6 +8,8 @@ const authRoutes = require('./routes/auth');
 const postsRoutes = require('./routes/posts');
 const repliesRoutes = require('./routes/replies');
 
+const { HttpError } = require('./utils/error');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -48,8 +50,12 @@ app.get(/(.*)/, (req, res) => {
 });
 
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({error: 'Something went wrong!'});
+    if (err instanceof HttpError) {
+        res.status(err.statusCode).json({error: err.message});
+    } else {
+        console.error(err.stack);
+        res.status(500).json({error: 'Something went wrong!'});
+    }
 });
 
 app.listen(PORT, () => {
