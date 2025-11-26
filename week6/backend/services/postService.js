@@ -1,5 +1,6 @@
 const postRepository = require('../repositories/postRepository');
 const sanitizeHtml = require('sanitize-html');
+const { HttpError } = require('../utils/error');
 
 /**
  * Post Service
@@ -12,7 +13,7 @@ const sanitizeHtml = require('sanitize-html');
 async function getAllPosts() {
     // TODO: Implement
     // postRepository.findAll() 호출
-    throw new Error('Not implemented');
+    return await postRepository.findAll()
 }
 
 /**
@@ -22,7 +23,11 @@ async function getPostById(postId) {
     // TODO: Implement
     // postRepository.findById() 호출
     // 게시글이 없으면 적절한 에러 처리
-    throw new Error('Not implemented');
+    const post = await postRepository.findById(postId);
+    if(!post)
+        throw new HttpError("해당하는 게시글이 없습니다!", 404);
+    
+    return post;
 }
 
 /**
@@ -33,7 +38,15 @@ async function createPost(title, content, userId) {
     // 1. 입력 유효성 검사
     // 2. postRepository.create() 호출
     // 3. 생성된 게시글 조회 및 반환
-    throw new Error('Not implemented');
+    if(title.trim() === '' || content.trim() === '')
+        throw new HttpError("제목과 내용은 빈 칸일 수 없습니다.", 400);
+    
+    const sanitizedTitle = sanitizeHtml(title);
+    const sanitizedContent = sanitizeHtml(content);
+    const createdPostId = await postRepository.create(sanitizedTitle, sanitizedContent, userId);
+    const post = await postRepository.findById(createdPostId);
+
+    return post
 }
 
 /**
@@ -46,7 +59,23 @@ async function updatePost(postId, title, content, userId) {
     // 3. 작성자 확인 (postRepository.isOwner)
     // 4. postRepository.update() 호출
     // 5. 수정된 게시글 조회 및 반환
-    throw new Error('Not implemented');
+    if(title.trim() === '' || content.trim() === '')
+        throw new HttpError("제목과 내용은 빈 칸일 수 없습니다.", 400);
+    
+    const post = await getPostById(postId);
+    if (post.userId !== userId)
+        throw new HttpError("자신의 게시물만 수정할 수 있습니다!", 403);
+
+    const sanitizedTitle = sanitizeHtml(title);
+    const sanitizedContent = sanitizeHtml(content);
+
+    const UpdatedPostId = await postRepository.update(postId, sanitizedTitle, sanitizedContent);
+    if(!UpdatedPostId)
+        throw new HttpError("삭제에 실패했습니다...", 500);
+
+    const updatedPost = await getPostById(UpdatedPostId);
+
+    return updatedPost;
 }
 
 /**
@@ -57,7 +86,13 @@ async function deletePost(postId, userId) {
     // 1. 게시글 존재 확인
     // 2. 작성자 확인 (postRepository.isOwner)
     // 3. postRepository.deleteById() 호출
-    throw new Error('Not implemented');
+    const post = await getPostById(postId);
+    if (post.userId !== userId)
+        throw new HttpError("자신의 게시물만 삭제할 수 있습니다!", 403);
+    const isSuccessed = await postRepository.deleteById(postId);
+    if(!isSuccessed)
+        throw new HttpError('삭제에 실패했습니다...', 500);
+    return;
 }
 
 module.exports = {
