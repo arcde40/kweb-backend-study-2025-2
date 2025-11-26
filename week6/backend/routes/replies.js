@@ -10,7 +10,7 @@ router.delete('/:replyId', async (req, res) => {
   // 2. replyService.deleteReply() 호출
   // 3. 200 상태코드 반환
 
-  res.status(501).json({ error: 'Not implemented' });
+  res.status(501).json({ message: 'Not implemented' });
 });
 
 module.exports = router;

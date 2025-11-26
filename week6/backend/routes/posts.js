@@ -6,7 +6,7 @@ const replyService = require('../services/replyService');
 router.get('/', async (req, res) => {
   // TODO: postService.getAllPosts() 호출 후 결과 반환
 
-  res.status(501).json({ error: 'Not implemented' });
+  res.status(501).json({ message: 'Not implemented' });
 });
 
 router.get('/:id', async (req, res) => {
@@ -14,7 +14,7 @@ router.get('/:id', async (req, res) => {
 
   // TODO: postService.getPostById() 호출 후 결과 반환
 
-  res.status(501).json({ error: 'Not implemented' });
+  res.status(501).json({ message: 'Not implemented' });
 });
 
 router.post('/', async (req, res) => {
@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
   // 2. postService.createPost() 호출
   // 3. 201 상태코드와 함께 결과 반환
 
-  res.status(501).json({ error: 'Not implemented' });
+  res.status(501).json({ message: 'Not implemented' });
 });
 
 router.put('/:id', async (req, res) => {
@@ -37,7 +37,7 @@ router.put('/:id', async (req, res) => {
   // 2. postService.updatePost() 호출
   // 3. 결과 반환
 
-  res.status(501).json({ error: 'Not implemented' });
+  res.status(501).json({ message: 'Not implemented' });
 });
 
 router.delete('/:id', async (req, res) => {
@@ -48,7 +48,7 @@ router.delete('/:id', async (req, res) => {
   // 2. postService.deletePost() 호출
   // 3. 204 상태코드 반환
 
-  res.status(501).json({ error: 'Not implemented' });
+  res.status(501).json({ message: 'Not implemented' });
 });
 
 router.get('/:postId/replies', async (req, res) => {
@@ -56,7 +56,7 @@ router.get('/:postId/replies', async (req, res) => {
 
   // TODO: replyService.getRepliesByPostId() 호출 후 결과 반환
 
-  res.status(501).json({ error: 'Not implemented' });
+  res.status(501).json({ message: 'Not implemented' });
 });
 
 router.post('/:postId/replies', async (req, res) => {
@@ -68,7 +68,7 @@ router.post('/:postId/replies', async (req, res) => {
   // 2. replyService.createReply() 호출
   // 3. 201 상태코드와 함께 결과 반환
 
-  res.status(501).json({ error: 'Not implemented' });
+  res.status(501).json({ message: 'Not implemented' });
 });
 
 module.exports = router;
