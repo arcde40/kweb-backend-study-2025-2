@@ -9,8 +9,12 @@ router.delete('/:replyId', async (req, res) => {
   // 1. 세션에서 userId 가져오기
   // 2. replyService.deleteReply() 호출
   // 3. 200 상태코드 반환
+  const userId = req.sesison.userId;
+  if(!userId)
+    return res.status(401).json({message: "You are not logged in!"});
 
-  res.status(501).json({ message: 'Not implemented' });
+  await replyService.deleteReply(replyId, userId);
+  res.status(200).send();
 });
 
 module.exports = router;

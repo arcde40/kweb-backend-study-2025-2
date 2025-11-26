@@ -10,7 +10,20 @@ const { runQuery } = require('./database');
  */
 async function findByPostId(postId) {
     // TODO: JOIN 쿼리 작성 (users 테이블과 조인)
-    throw new Error('Not implemented');
+    const rows = await runQuery(
+        `SELECT 
+            replies.id, 
+            replies.content, 
+            replies.post_id as postId, 
+            replies.user_id as userId, 
+            username, 
+            replies.created_at as createdAt 
+        FROM replies 
+        LEFT OUTER JOIN users ON replies.user_id = users.id 
+        WHERE post_id = ?`,
+        [postId]
+    );
+    return rows[0];
 }
 
 /**
