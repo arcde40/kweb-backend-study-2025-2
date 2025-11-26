@@ -18,7 +18,8 @@ async function findByPostId(postId) {
  */
 async function findById(id) {
     const rows = await runQuery(
-        'SELECT * FROM replies WHERE id = ?',
+        `SELECT replies.id, replies.content, replies.post_id as postId, replies.user_id as userId, username, replies.created_at as createdAt 
+        from replies left outer join users on replies.user_id = users.id where replies.id = ?`,
         [id]
     );
     return rows[0];

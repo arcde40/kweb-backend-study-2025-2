@@ -1,4 +1,5 @@
 const postRepository = require('../repositories/postRepository');
+const sanitizeHtml = require('sanitize-html');
 
 /**
  * Post Service

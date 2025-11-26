@@ -1,6 +1,6 @@
 const replyRepository = require('../repositories/replyRepository');
 const postRepository = require('../repositories/postRepository');
-
+const sanitizeHtml = require('sanitize-html');
 /**
  * Reply Service
  * 댓글 관련 비즈니스 로직을 담당
