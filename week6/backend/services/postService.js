@@ -74,7 +74,7 @@ async function deletePost(postId, userId) {
     // 2. 작성자 확인 (postRepository.isOwner)
     // 3. postRepository.deleteById() 호출
     const post = getPostById(postId);
-    if(await postRepository.isOwner(postId, userId)) 
+    if(!(await postRepository.isOwner(postId, userId))) 
         throw new HttpError("자신의 게시물만 삭제할 수 있습니다.", 403);
     const isSucceded = await postRepository.deleteById(postId);
     if (!isSucceded) throw new HttpError("삭제에 실패했습니다", 500);

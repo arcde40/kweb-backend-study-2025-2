@@ -16,7 +16,7 @@ async function getRepliesByPostId(postId) {
     // 2. replyRepository.findByPostId() 호출
     const post = await postRepository.findById(postId);
     if(!post) throw new HttpError("게시물을 찾을 수 없습니다", 404);
-    const result = replyRepository.findByPostId(postId);
+    const result = await replyRepository.findByPostId(postId);
     return result;
 }
 

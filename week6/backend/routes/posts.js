@@ -55,8 +55,7 @@ router.delete('/:id', async (req, res) => {
   // 3. 204 상태코드 반환
   const userId = req.session.userId;
   if(!userId) res.status(401).json({message: 'You are not logged in!'});
-  postService.deletePost(id);
-
+  await postService.deletePost(id, userId);
 
   res.status(204).send();
 });

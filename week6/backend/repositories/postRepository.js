@@ -11,8 +11,8 @@ const { runQuery } = require('./database');
 async function findAll() {
     // TODO: JOIN 쿼리 작성 (users, replies COUNT)
     const posts = await runQuery(`
-        select posts.id, posts.title, posts.content, users.id as userID,
-        users.username, posts.created_at, as createdAt, count(replies.id) as reply_count
+        select posts.id, posts.title, posts.content, users.id as userId,
+        users.username, posts.created_at as createdAt, count(replies.id) as reply_count
         from posts inner join users on posts.user_id = users.id
         left outer join replies on posts.id = replies.post_id
         group by posts.id
@@ -28,8 +28,8 @@ async function findAll() {
 async function findById(id) {
     // TODO: JOIN 쿼리 작성
         const posts = await runQuery(`
-        select posts.id, posts.title, posts.content, users.id as userID,
-        users.username, posts.created_at, as createdAt, count(replies.id) as reply_count
+        select posts.id, posts.title, posts.content, users.id as userId,
+        users.username, posts.created_at as createdAt, count(replies.id) as reply_count
         from posts inner join users on posts.user_id = users.id
         left outer join replies on posts.id = replies.post_id
         where posts.id = ?
