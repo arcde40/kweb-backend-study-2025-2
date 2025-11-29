@@ -7,6 +7,7 @@ const getStudentCredit = async (student_name) => {
     `
     const result = await runQuery(query);
     console.log(result)
+    
     if (result[0]) {
         let output = `${student_name}의 수강목록: \n`
         result.forEach(element => {
