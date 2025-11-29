@@ -1,65 +1,103 @@
 const {runQuery} = require('./database');
+const express = require('express');
+const session = require('express-session');
+const sanitizeHtml = express("sanitize-html")
+const app = express()
 
-const getStudentCredit = async (student_name) => {
-    const query = `
-    select e.grade, courses.course_name from enrollments as e natural join students as s natural join courses
-    where s.student_name = '${student_name}';
-    `
-    const result = await runQuery(query);
-    console.log(result)
-    if (result[0]) {
-        let output = `${student_name}의 수강목록: \n`
-        result.forEach(element => {
-            output += `${element["course_name"]}: ${element["grade"]}\n`
-        });
-        console.log(output.trimEnd())
-    }
-    else{
-        console.log(`요청하신 ${student_name}에 대한 자료가 조회되지 않았습니다.`)
-    }
+//for pug
+app.use(express.urlencoded({extended: true}));
+app.set('views', `${__dirname}/views`);
+app.set('view engine', 'pug');
+app.use(express.static(`${__dirname}/public`))
+
+app.get("/", (req, res) => {
+    res.render("Main.pug")
+})
+
+const getstudentinfo = async (student_name) => {
+    const query = `select student_name, course_name, grade from enrollments natural join students natural join courses where student_name = ?`
+    const result = await runQuery(query, [student_name]);
+    return result
 }
-
-const getStudentsofCourse = async (course_name) => {
+const getcourseinfo = async (course_name) => {
     const query = `
-    select course_name, student_name from enrollments NATURAL JOIN courses NATURAL join students where course_name = "${course_name}";
-    
-    `
-    const result = await runQuery(query)
-    let output = `${course_name}의 수강 학생\n`
-    if (result[0]){
-        result.forEach(element => {
-            output += `${element["student_name"]}, `
-        })
-        console.log(output.slice(0, output.length - 2))
-    }
-    else{
+    select course_name, student_name
+    from enrollments natural join courses natural join students
+    where course_name = ?`
 
-    }
+    const result = await runQuery(query, [course_name])
+    return result
 }
-
-const addenrollment = async (student_id, course_id, grade) => {
-    const read_course = `
-    select * from courses where course_id = ${course_id}
-    `
-
-    const read_student = `
-    select * from students where student_id = ${student_id}
-    `
-
-    const student = await runQuery(read_student)
-    const course = await runQuery(read_course)
-
-    if (student.length == 0 || course.length == 0){
-        console.log("삽입실패, 존재하지 않는 데이터")
-        return;
-    }
+const pushenrollment = async (sid, cid, grade) => {
     const query = `
     insert ignore into enrollments(student_id, course_id, grade)
-    VALUES (${student_id}, ${course_id}, "${grade}");
+    values (?, ?, ?)
+    on duplicate key update
+        grade = VALUES(grade)
     `
-    runQuery(query)
+
+    const result = await runQuery(query, [sid, cid, grade])
+    return result["affectedRows"]
 }
 
-(async () => {
-    addenrollment(87, 56, "A+")
-})();
+app.get("/student-info", async (req, res) => {
+    const name = req.query.name
+    if (name === undefined || name.trim() === "") {
+        res.send("유효한 값이 아닙니다.")
+    }
+    else{
+        result = await getstudentinfo(name)
+        if (result.length === 0) {
+            res.send("조회되지 않습니다.")
+        }
+        else{
+            res.render("student-info.pug", {title: name, result: result})
+        }
+    }
+})
+app.get("/course-info", async (req, res) => {
+    const name = req.query.name
+    if (name === undefined || name.trim() === "")
+        res.send("유효한 값이 아닙니다.")
+    else{
+        result = await getcourseinfo(name)
+        if (result.length === 0) {
+            res.send("조회되지 않습니다.")
+        }
+        else{
+            let output = ""
+            let array = []
+            result.forEach((elem) => {
+                array.push(elem["student_name"])
+            })
+
+            res.render("course-info.pug", {title: name, result: array.join(", ")})
+        }
+    }
+})
+app.get("/push-enrollment", async (req, res) => {
+    const sid = req.query.studentid
+    const cid = req.query.courseid
+    const grade = req.query.grade
+
+    if (
+        sid === undefined || sid.trim() === "" ||
+        cid === undefined || cid.trim() === "" ||
+        grade === undefined || grade.trim() === ""
+    ){
+        res.send("값이 유효하지 않습니다.")
+    }
+    else{
+        const result = await pushenrollment(sid, cid, grade)
+
+        if (result != 0) {
+            res.send(`삽입 성공`)
+        }
+        else{
+            res.send(`삽입 실패`)
+        }
+    }
+
+})
+
+app.listen(3000, () => { console.log('Server listening on port 3000!');});
