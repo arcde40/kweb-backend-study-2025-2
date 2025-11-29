@@ -1,0 +1,8 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    title #{title}의 정보
+  body
+    each elem, index in result
+        h1 #{index + 1}. #{elem["course_name"]}, #{elem["grade"]} 
