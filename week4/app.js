@@ -1,5 +1,6 @@
 const {runQuery} = require('./database');
 
+
 const getStudentCredit = async (student_name) => {
     const query = `
     select e.grade, courses.course_name from enrollments as e natural join students as s natural join courses
