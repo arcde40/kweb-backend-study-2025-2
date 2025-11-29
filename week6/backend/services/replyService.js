@@ -23,7 +23,7 @@ async function getRepliesByPostId(postId) {
  */
 async function createReply(content, postId, userId) {
     
-    if (content.trim() !== "") throw new HttpError("내용은 빈칸일수 없습니다.", 404);
+    if (content.trim() === "") throw new HttpError("내용은 빈칸일수 없습니다.", 404);
     const post = await postRepository.findById(postId);
     if (!post) throw new HttpError("게시물을 찾을 수 없습니다", 404);
 

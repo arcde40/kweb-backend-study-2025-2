@@ -25,7 +25,7 @@ async function register(username, password) {
     if (hasUser) throw new HttpError("동일한 이름을 가진 유저가 있습니다.", 409);
     const hashedPassword = await hashPassword(password);
     const response = await userRepository.create(username, hashedPassword);
-    throw new Error('Not implemented');
+    return response;
 }
 
 /**

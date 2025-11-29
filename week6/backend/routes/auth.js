@@ -26,7 +26,7 @@ router.post('/login', async (req, res) => {
 
 router.post('/logout', (req, res) => {
   // TODO: req.session.destroy() 호출
-  req.session.destory();
+  req.session.destroy();
   res.status(200).send();
 });
 

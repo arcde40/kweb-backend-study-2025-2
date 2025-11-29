@@ -36,7 +36,7 @@ async function createPost(title, content, userId) {
     if (title.trim() === "" || content.trim() === ""){
         throw new HttpError("제목과 내용은 빈 칸일 수 없습니다.", 400);
     }
-    const createdPostId = await post.Repository.create(sanitizeHtml(title), sanitizeHtml(content), userId)
+    const createdPostId = await postRepository.create(sanitizeHtml(title), sanitizeHtml(content), userId)
     const post = await postRepository.findById(createdPostId);
     return post;
     
@@ -63,7 +63,7 @@ async function updatePost(postId, title, content, userId) {
  */
 async function deletePost(postId, userId) {
     const post = getPostById(postId);
-    if (postRepository.isOwner(postId, userId)) throw new HttpError("자기 자신의 게시물만 삭제할 수 있습니다!", 403);
+    if (!postRepository.isOwner(postId, userId)) throw new HttpError("자기 자신의 게시물만 삭제할 수 있습니다!", 403);
     const success = await postRepository.deleteById(postId);
     if (!success) throw new HttpError("삭제에 실패했습니다!", 500);
     return;

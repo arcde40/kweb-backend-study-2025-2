@@ -11,10 +11,10 @@ const { runQuery } = require('./database');
 async function findByPostId(postId) {
     const rows = await runQuery(
         `SELECT replies.id, replies.content, replies.post_id as postId, replies.user_id as userId, username, replies.created_at as createdAt 
-        from replies left outer join users on replies.user_id = users.id where post.id = ?`,
-        [id]
+        from replies left outer join users on replies.user_id = users.id where post_id = ?`,
+        [postId]
     );
-    throw new Error('Not implemented');
+    return rows;
 }
 
 /**
