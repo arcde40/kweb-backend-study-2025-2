@@ -12,9 +12,9 @@ const getStudentCredit = async (student_name) => {
     const query =  `
         SELECT courses.course_name, enrollments.grade
         FROM students NATURAL JOIN enrollments NATURAL JOIN courses
-        WHERE students.student_name = '${student_name}';
+        WHERE students.student_name = ?;
     `;
-    const row = await runQuery(query);
+    const row = await runQuery(query, [student_name]);
     console.log(`${student_name}의 성적`);
     row.forEach(elt => {
         console.log(`${elt.course_name}: ${elt.grade}`);
@@ -28,10 +28,10 @@ const getStudentsByCourse = async (course_name) => {
         FROM courses
         JOIN enrollments ON courses.course_id = enrollments.course_id
         JOIN students ON enrollments.student_id = students.student_id
-        WHERE courses.course_name = '${course_name}'
+        WHERE courses.course_name = ?
         ORDER BY student_name ASC;
     `;
-    const row = await runQuery(query);
+    const row = await runQuery(query, [course_name]);
     console.log(`${course_name}을(를) 수강하는 학생 목록`);
     row.forEach(elt => {
         console.log(`${elt.name}`);
@@ -42,9 +42,9 @@ const getStudentsByCourse = async (course_name) => {
 const addEnrollment = async (studentID, courseID, grade) => {
     const query = `
         INSERT INTO enrollments(student_id, course_id, grade)
-        VALUES (${studentID}, ${courseID}, '${grade}');
+        VALUES (?, ?, ?);
     `;
-    runQuery(query).then(async () => {
+    runQuery(query, [studentID, courseID, grade]).then(async () => {
         console.log(`수강 신청 완료`);
         const query =  `
             SELECT students.student_name, courses.course_name, enrollments.grade
