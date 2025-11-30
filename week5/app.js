@@ -9,7 +9,7 @@ app.use(session({
 	secret: 'asdf',
 	resave: false,
 	saveUninitialized: true,
-});
+}));
 
 app.get('/me', (req, res) => {
 
