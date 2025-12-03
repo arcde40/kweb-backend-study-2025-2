@@ -1,0 +1,21 @@
+html
+  head
+    title 합차 계산기
+  body
+    h1 Simple Calculator
+    
+    form(action="/math" method="POST")
+      div
+        label(for="a") 숫자 A: 
+        input(type="number" name="a" required)
+      div
+        label(for="b") 숫자 B: 
+        input(type="number" name="b" required)
+      div
+        button(type="submit") 계산하기!
+
+    if result
+      hr
+      h2 계산 결과
+      p A + B = #{result.sum}
+      p A - B = #{result.sub}
