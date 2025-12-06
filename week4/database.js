@@ -9,9 +9,10 @@ const pool = mysql.createPool({
 });
 
 
-const runQuery = async sql => {
+const runQuery = async (pstmt, data) => {
     const conn = await pool.getConnection();
     try {
+        sql = conn.format(pstmt, data);
         const [result] = await conn.query(sql);
         return result;
     } finally {
