@@ -50,6 +50,11 @@ app.get(/(.*)/, (req, res) => {
 });
 
 app.use((err, req, res, next) => {
+
+    if (res.headersSent) {
+        return next(err);
+    }
+
     if (err instanceof HttpError) {
         res.status(err.statusCode).json({error: err.message});
     } else {

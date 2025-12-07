@@ -5,16 +5,16 @@ const replyService = require('../services/replyService');
 
 router.get('/', async (req, res) => {
   // TODO: postService.getAllPosts() 호출 후 결과 반환
-
-  res.status(501).json({ message: 'Not implemented' });
+  const allPosts = await postService.getAllPosts()
+  res.status(200).json(allPosts)
 });
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
 
   // TODO: postService.getPostById() 호출 후 결과 반환
-
-  res.status(501).json({ message: 'Not implemented' });
+  const post = await postService.getPostById(id)
+  res.status(200).json(post)
 });
 
 router.post('/', async (req, res) => {
@@ -25,7 +25,11 @@ router.post('/', async (req, res) => {
   // 2. postService.createPost() 호출
   // 3. 201 상태코드와 함께 결과 반환
 
-  res.status(501).json({ message: 'Not implemented' });
+  const userId = req.session.userId;
+  if(!userId)  res.status(401).json({message : '1You are not logged in!'});
+  const createdPost = await postService.createPost(title, content, userId);
+
+  res.status(201).json(createdPost)
 });
 
 router.put('/:id', async (req, res) => {
@@ -36,8 +40,11 @@ router.put('/:id', async (req, res) => {
   // 1. 세션에서 userId 가져오기
   // 2. postService.updatePost() 호출
   // 3. 결과 반환
+  const userId = req.session.userId
+  if(!userId)  res.status(401).json({message : '2You are not logged in!'});
+  const updatedPost = await postService.updatePost(id, title, content,userId)
 
-  res.status(501).json({ message: 'Not implemented' });
+  res.status(200).json(updatedPost);
 });
 
 router.delete('/:id', async (req, res) => {
@@ -47,8 +54,12 @@ router.delete('/:id', async (req, res) => {
   // 1. 세션에서 userId 가져오기
   // 2. postService.deletePost() 호출
   // 3. 204 상태코드 반환
+  const userId = req.session.userId
+  if(!userId)  res.status(401).json({message : '3You are not logged in!'});
+  postService.deletePost(id)  
+  
+  res.status(204).send()
 
-  res.status(501).json({ message: 'Not implemented' });
 });
 
 router.get('/:postId/replies', async (req, res) => {
@@ -56,7 +67,9 @@ router.get('/:postId/replies', async (req, res) => {
 
   // TODO: replyService.getRepliesByPostId() 호출 후 결과 반환
 
-  res.status(501).json({ message: 'Not implemented' });
+  const result = await replyService.getRepliesByPostId(postId)
+
+  res.status(200).json(result);
 });
 
 router.post('/:postId/replies', async (req, res) => {
@@ -68,7 +81,12 @@ router.post('/:postId/replies', async (req, res) => {
   // 2. replyService.createReply() 호출
   // 3. 201 상태코드와 함께 결과 반환
 
-  res.status(501).json({ message: 'Not implemented' });
+  const userId = req.session.userId
+  if(!userId)  res.status(401).json({message : '4You are not logged in!'});
+
+  const reply = await replyService.createReply(content, postId, userId)
+
+  res.status(201).json(reply);
 });
 
 module.exports = router;
