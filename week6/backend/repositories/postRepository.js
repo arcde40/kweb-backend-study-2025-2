@@ -10,7 +10,15 @@ const { runQuery } = require('./database');
  */
 async function findAll() {
     // TODO: JOIN 쿼리 작성 (users, replies COUNT)
-    throw new Error('Not implemented');
+    const posts = await runQuery(`
+         SELECT posts.id, posts.title, posts.content, users.id as userId,
+         users.username, posts.created_at as createdAt, count(replies.id) as reply_count
+         from posts INNER JOIN users on posts.user_id = users.id
+         LEFT OUTER JOIN replies on posts.id = replies.post_id
+         GROUP BY posts.id
+         ORDER BY posts.created_at desc
+    `, [])
+    return posts
 }
 
 /**
@@ -18,7 +26,16 @@ async function findAll() {
  */
 async function findById(id) {
     // TODO: JOIN 쿼리 작성
-    throw new Error('Not implemented');
+    const posts = await runQuery(`
+         SELECT posts.id, posts.title, posts.content, users.id as userId,
+         users.username, posts.created_at as createdAt, count(replies.id) as reply_count
+         from posts INNER JOIN users on posts.user_ID = users.id
+         LEFT OUTER JOIN replies on posts.id = replies.post_id
+         WHERE posts.id = ?
+         GROUP BY posts.id
+    `, [id]);
+
+    return posts[0];
 }
 
 /**
