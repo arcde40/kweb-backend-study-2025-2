@@ -1,6 +1,7 @@
 const replyRepository = require('../repositories/replyRepository');
 const postRepository = require('../repositories/postRepository');
 const sanitizeHtml = require('sanitize-html');
+const { HttpError } = require('../utils/error');
 /**
  * Reply Service
  * 댓글 관련 비즈니스 로직을 담당
@@ -13,7 +14,11 @@ async function getRepliesByPostId(postId) {
     // TODO: Implement
     // 1. 게시글 존재 확인 (postRepository.findById)
     // 2. replyRepository.findByPostId() 호출
-    throw new Error('Not implemented');
+
+    const post = await postRepository.findById(postId);
+    if(!post) throw new HttpError('게시물을 찾을 수 없습니다', 404);
+    const result = await replyRepository.findByPostId(postId);
+    return result;
 }
 
 /**
@@ -25,7 +30,15 @@ async function createReply(content, postId, userId) {
     // 2. 게시글 존재 확인 (postRepository.findById)
     // 3. replyRepository.create() 호출
     // 4. 생성된 댓글 조회 및 반환
-    throw new Error('Not implemented');
+
+    if(content.trim() === '') throw new HttpError('내용은 빈 칸일 수 없습니다', 404);
+
+    const post = await postRepository.findById(postId);
+    if(!post) throw new HttpError('게시물 찾기 실패');
+
+    const createdId = await replyRepository.create(content, postId, userId);
+    const createdReply = await replyRepository.findById(createdId);
+    return createdReply;
 }
 
 /**
@@ -36,7 +49,14 @@ async function deleteReply(replyId, userId) {
     // 1. 댓글 존재 확인 (replyRepository.findById)
     // 2. 작성자 확인 (replyRepository.isOwner)
     // 3. replyRepository.deleteById() 호출
-    throw new Error('Not implemented');
+
+    const reply = replyRepository.findById(replyId);
+    if(!reply) throw new HttpError('댓글 찾기 실패', 404);
+    if(!(await replyRepository.isOwner(replyId, userId)))
+        throw new HttpError('자기 댓글만 삭제 가능', 403);
+    const isSucceded = await replyRepository.deleteById(replyId)
+    if(!isSucceded) throw new HttpError('삭제 실패', 500)
+    return;
 }
 
 module.exports = {

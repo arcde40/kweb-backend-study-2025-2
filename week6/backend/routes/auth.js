@@ -6,8 +6,9 @@ router.post('/register', async (req, res) => {
   const { username, password } = req.body;
 
   // TODO: authService.register() 호출 후 결과 반환
+  const result = await authService.register(username, password)
 
-  res.status(501).json({ message: 'Not implemented' });
+  res.status(200).json(result);
 });
 
 router.post('/login', async (req, res) => {
@@ -18,11 +19,16 @@ router.post('/login', async (req, res) => {
   // 2. 세션에 userId 저장: req.session.userId = user.id
   // 3. 사용자 정보 반환
 
-  res.status(501).json({ message: 'Not implemented' });
+  const result = await authService.login(username, password);
+  req.session.userId = result.id;
+
+  res.status(200).json(result);
 });
 
 router.post('/logout', (req, res) => {
   // TODO: req.session.destroy() 호출
+  req.session.destroy();
+  res.status(200).send();
 
   res.status(501).json({ message: 'Not implemented' });
 });
@@ -33,7 +39,14 @@ router.get('/me', async (req, res) => {
   // 2. authService.getCurrentUser() 호출
   // 3. 사용자 정보 반환
 
-  res.status(501).json({ message: 'Not implemented' });
+  const userId = req.session.userId;
+  if(!userId) {
+    res.status(401).json({message: 'you are not logged in'})
+  }
+
+  const user = await authService.getCurrentUser(userId);
+
+  res.status(200).json(user);
 });
 
 module.exports = router;
