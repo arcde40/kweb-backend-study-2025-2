@@ -21,7 +21,7 @@ router.post('/login', async (req, res) => {
   // 2. 세션에 userId 저장: req.session.userId = user.id
   // 3. 사용자 정보 반환
   const result = await authService.login(username, password)
-  req.session.userID = result.id;
+  req.session.userId = result.id;
 
   res.status(200).json(result)
 });

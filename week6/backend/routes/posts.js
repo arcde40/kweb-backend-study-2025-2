@@ -25,8 +25,8 @@ router.post('/', async (req, res) => {
   // 2. postService.createPost() 호출
   // 3. 201 상태코드와 함께 결과 반환
 
-  const userId = req.session.userId;
-  if(!userId)  res.status(401).json({message : '1You are not logged in!'});
+  const userId = req.session.userId
+  if(!userId)  return res.status(401).json({message : '1You are not logged in!'});
   const createdPost = await postService.createPost(title, content, userId);
 
   res.status(201).json(createdPost)

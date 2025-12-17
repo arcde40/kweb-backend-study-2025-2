@@ -36,6 +36,11 @@ async function createPost(title, content, userId) {
     // 1. 입력 유효성 검사
     // 2. postRepository.create() 호출
     // 3. 생성된 게시글 조회 및 반환
+
+    if (!userId) {
+        throw new HttpError('로그인이 필요합니다.', 401);
+    }
+
     if(title.trim() === '' || content.trim() === '')
         throw new HttpError('제목과 내용은 빈칸일 수 없습니다', 400)
     const createdPostId = await postRepository.create(sanitizeHtml(title),sanitizeHtml(content), userId)
